@@ -73,6 +73,23 @@ pipeline{
                }
             }
         }
+        stage('Publish to Artifactory') {
+            steps {
+                script {
+                    def server = Artifactory.newServer url: 'http://20.235.242.133:8082/artifactory', credentialsId: 'your-artifactory-credentials-id'
+                    def buildInfo = Artifactory.newBuildInfo()
+
+                    def rtMaven = Artifactory.newMavenBuild()
+                    rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
+                    rtMaven.deployer.deployArtifacts = true
+                    rtMaven.deployer.deployBuildInfo = true
+                    rtMaven.deployer.deployMavenDescriptors = true
+                    rtMaven.deployer.includesPattern = '**/*'
+
+                    server.publishBuildInfo buildInfo
+                }
+            }
+        }
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
