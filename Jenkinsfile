@@ -88,7 +88,6 @@ pipeline{
                     sh "curl -X PUT -u $artifactoryCredentials -T ${jarFileName} ${artifactoryUrl}"
                     sh "pwd"
                     sh "ls"
-                    sh "sudo su"
                 }
             }
         }
