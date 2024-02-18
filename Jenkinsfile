@@ -78,10 +78,16 @@ pipeline{
             steps {
                 script {
                     def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
-                    def artifactoryUrl = 'http://20.235.242.133:8082/artifactory/example-repo-local/'
+                    def artifactoryUrl = 'http://20.235.242.133:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
                     def artifactoryCredentials = 'admin:Thug@12345'
-
-                    sh "curl -X PUT -u $artifactoryCredentials -T ${PWD}/${jarFileName} ${artifactoryUrl}${jarFileName}"
+                    sh "pwd"
+                    sh "ls"
+                    sh "cd target/"
+                    sh "pwd"
+                    sh "ls"
+                    sh "curl -X PUT -u $artifactoryCredentials -T ${jarFileName} ${artifactoryUrl}"
+                    sh "pwd"
+                    sh "ls"
                 }
             }
         }
