@@ -75,11 +75,14 @@ pipeline{
         }
         stage('Jfrog'){
          when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   jfrogAdd()
-               }
+            steps {
+                script {
+                    def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
+                    def artifactoryUrl = 'http://20.235.242.133:8082/artifactory/example-repo-local/'
+                    def artifactoryCredentials = 'admin:Thug@12345'
+
+                    sh "curl -X PUT -u $artifactoryCredentials -T ${PWD}/${jarFileName} ${artifactoryUrl}${jarFileName}"
+                }
             }
         }
         stage('Docker Image Build'){
